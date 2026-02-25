@@ -1,0 +1,106 @@
+{
+  "animals": {
+    "dozer": {
+      "species": "dog",
+      "breed": "Boxer",
+      "color": "Fawn/brown with dark face mask",
+      "size": "Medium-large (60-70 lbs)",
+      "markings": "Classic boxer brindle/fawn coat, black muzzle and face mask, white chest patch",
+      "identification_rules": [
+        "Only boxer on property — any boxer = Dozer",
+        "Stocky, muscular build with short muzzle",
+        "Fawn/brown body, dark face"
+      ]
+    },
+    "nona": {
+      "species": "horse",
+      "breed": "Percheron (draft horse)",
+      "color": "Solid black",
+      "size": "Very large — tallest and heaviest horse on property (16-17 hands, ~2000 lbs)",
+      "markings": "NO white markings at all. Completely solid black.",
+      "identification_rules": [
+        "Only draft horse on property — significantly larger than the other two horses",
+        "Solid black with zero white markings",
+        "Percheron build: heavy bone, feathered fetlocks, broad chest",
+        "In IR/night: largest silhouette by far"
+      ]
+    },
+    "cruella": {
+      "species": "horse",
+      "breed": "Horse (standard riding breed)",
+      "color": "Black",
+      "size": "Standard riding horse (15-16 hands)",
+      "markings": "White starburst/star marking on face. No leg markings.",
+      "identification_rules": [
+        "Black horse with white star/blaze on face = Cruella",
+        "Smaller than Nona, similar size to Scooby",
+        "Face marking is key identifier — look for white on forehead/face",
+        "In IR/night: check face for lighter marking"
+      ]
+    },
+    "scooby": {
+      "species": "horse",
+      "breed": "Horse (standard riding breed)",
+      "color": "Black",
+      "size": "Standard riding horse (15-16 hands)",
+      "markings": "One white foot (sock/stocking). NO face markings.",
+      "identification_rules": [
+        "Black horse with white foot but no face markings = Scooby",
+        "Look for one lighter/white lower leg",
+        "No white on face — distinguishes from Cruella",
+        "In IR/night: check legs for one lighter foot"
+      ]
+    }
+  },
+  "unknown_dog_policy": {
+    "rule": "Any dog that is NOT a boxer = UNKNOWN DOG",
+    "action": "Alert immediately via Telegram",
+    "cooldown": 0,
+    "notes": "Only one dog (Dozer, a boxer) belongs on this property. Any other dog breed is a stray/intruder."
+  },
+  "sensor_to_camera_map": {
+    "barn": "barn",
+    "stalls": "stalls",
+    "stall1": "nona-stall",
+    "stall2": "cru-stall",
+    "stall3": "scooby-stall",
+    "paddock1": "paddock1",
+    "paddock2": "paddock2",
+    "paddock5": "delivery",
+    "overwatch": "overwatch01",
+    "pond": "pond",
+    "greenville_rd": "greenville-rd",
+    "driveentry": "drive-entry",
+    "driveway": "driveway",
+    "front_yard": "front-yard",
+    "front_door": "Front Porch",
+    "back_door": "back-door",
+    "garage": "garage",
+    "pool_patio": "Pool Patio",
+    "patio_north": "north-pool-shack",
+    "pool": "pool",
+    "backyard": "Patio Backyard",
+    "poolshack_north": "north-pool-shack",
+    "mower_storage": "mower-storage",
+    "shop_ceiling1": "shop-ceiling1",
+    "spa": "pool"
+  },
+  "camera_classifications": {
+    "stall_cameras": ["stall1", "stall2", "stall3"],
+    "perimeter_cameras": ["greenville_rd", "driveentry", "driveway", "front_yard", "front_door", "paddock5"],
+    "horse_cameras": ["barn", "stalls", "stall1", "stall2", "stall3", "paddock1", "paddock2", "overwatch", "pond"],
+    "dog_cameras": ["backyard", "front_yard", "patio_north", "pool_patio", "garage", "front_door", "back_door", "barn"]
+  },
+  "stall_assignments": {
+    "stall1": "nona",
+    "stall2": "cruella",
+    "stall3": "scooby"
+  },
+  "cooldown_rules": {
+    "same_animal_same_camera_minutes": 30,
+    "stall_camera_own_horse_minutes": 60,
+    "different_animal_same_camera_minutes": 0,
+    "unknown_dog_minutes": 0,
+    "perimeter_camera_minutes": 15
+  }
+}

@@ -6,16 +6,13 @@ This folder is home. Treat it that way.
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
 
-## Every Session
+## Context Loading
 
-Before doing anything else:
+**SOUL.md, USER.md, TOOLS.md, and MEMORY.md are automatically injected into your system prompt.** You already have their contents — do NOT re-read them with tool calls. This wastes tokens and fills the context window.
 
-1. Read `SOUL.md` — this is who you are
-2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+**Daily memory files** (`memory/YYYY-MM-DD.md`) are NOT auto-loaded. Only read today's if it exists and is relevant to the current question. Don't read yesterday's unless the user specifically asks about something from yesterday.
 
-Don't ask permission. Just do it.
+**Token budget:** Every tool call adds to the context window. Keep tool calls minimal — answer from what you already know before reaching for tools.
 
 ## Memory
 

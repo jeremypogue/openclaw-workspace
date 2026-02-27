@@ -1,24 +1,67 @@
 # TOOLS.md - Local Environment
 
-## MCP Servers (via mcporter CLI)
+## MCP Servers (via mcporter)
 
-**IMPORTANT: `mcporter` is a CLI command, NOT a native tool.** To call MCP tools, use the `exec` tool:
-```
-exec command="mcporter call <server.tool> key=value"
-```
-Do NOT try to call `mcporter` as a tool name — it will fail with "Tool not found".
+All MCP tools are accessed via the `mcporter` CLI. The daemon runs in the background with keep-alive connections.
 
-**If exec fails on the first try, DO NOT retry.** Report the error to the user and stop.
+Quick reference:
+- `mcporter list` — see all servers and tool counts
+- `mcporter list <server> --schema` — see tool signatures
+- `mcporter call <server.tool> key=value` — call a tool
+- `mcporter daemon status` — check daemon health
 
-### Available MCP Servers
-- `unifi-protect` (13 tools) — cameras, snapshots, video clips. Key: `get_snapshot camera_id=<name>`
-- `ha-mcp` (91 tools) — Home Assistant. Key: `ha_get_state`, `ha_turn_on/off`, `ha_search_entities`
-- `pool-controller` (19 tools) — pool/spa. Key: `pool_get_state`, `pool_set_heat_setpoint`
-- `relay-equipment-manager` (20 tools) — relay/sensor board at 10.0.101.250
-- `relay-equipment-manager-2` (20 tools) — relay/sensor board at 10.0.101.252
-- `unifi-network` (5 tools) — network devices. Key: `list_clients`, `list_devices`
+### unifi-protect (13 tools)
+UniFi Protect NVR at 10.0.201.1. Security cameras, snapshots, video clips.
 
-Run `mcporter list <server> --schema` to see full tool signatures.
+Key tools:
+- `unifi-protect.list_cameras` — list all cameras
+- `unifi-protect.get_snapshot camera_id=<name>` — grab a live snapshot (returns base64 JPEG)
+- `unifi-protect.get_video_clip camera_id=<name> minutes_ago=5 duration_seconds=30` — download a clip
+- `unifi-protect.get_stream_url camera_id=<name>` — get RTSPS stream URLs
+- `unifi-protect.set_camera_recording camera_id=<name> enabled=true` — toggle recording
+- `unifi-protect.get_system_info` — NVR system status
+
+### ha-mcp (91 tools)
+Home Assistant at 10.0.101.254:8123. Smart home control, automations, entities, dashboards.
+
+Key tools:
+- `ha-mcp.ha_search_entities query=<term>` — find entities by name/type
+- `ha-mcp.ha_turn_on entity_id=<id>` / `ha-mcp.ha_turn_off entity_id=<id>` — control devices
+- `ha-mcp.ha_get_state entity_id=<id>` — get current state
+- `ha-mcp.ha_get_history entity_id=<id>` — get history
+- `ha-mcp.ha_config_list_areas` — list rooms/areas
+- `ha-mcp.ha_get_automations` — list automations
+- `ha-mcp.ha_trigger_automation automation_id=<id>` — trigger an automation
+
+### pool-controller (19 tools)
+nodejs-poolController at 10.0.101.253:4200. Pool and spa equipment management.
+
+Key tools:
+- `pool-controller.pool_get_state` — current pool/spa status
+- `pool-controller.pool_set_circuit circuit_id=<id> state=<on/off>` — control circuits
+- `pool-controller.pool_set_heat_setpoint body=<pool/spa> setpoint=<temp>` — adjust temps
+- `pool-controller.pool_set_heat_mode body=<pool/spa> mode=<off/heater/solar>` — heat mode
+- `pool-controller.pool_set_chlorinator level=<percent>` — chlorinator
+
+### relay-equipment-manager (20 tools)
+REM Unit 1 at 10.0.101.250:8080. Hardware relay and sensor control.
+
+Key tools:
+- `relay-equipment-manager.rem_get_feeds` — list output feeds
+- `relay-equipment-manager.rem_set_feed_state feed_id=<id> state=<on/off>` — control relays
+- `relay-equipment-manager.rem_get_triggers` — list input triggers
+- `relay-equipment-manager.rem_get_i2c_devices` — list I2C devices (ADCs, sensors)
+
+### relay-equipment-manager-2 (20 tools)
+REM Unit 2 at 10.0.101.252:8080. Same tools as Unit 1, different hardware.
+
+### unifi-network (5 tools)
+UniFi Network controller at 192.168.1.1. Switches, APs, clients.
+
+Key tools:
+- `unifi-network.list_clients` — connected clients
+- `unifi-network.list_devices` — network devices
+- `unifi-network.get_device device_id=<id>` — device details
 
 ## Network Layout
 

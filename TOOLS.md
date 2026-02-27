@@ -76,7 +76,7 @@ Key tools:
 
 ## Camera Snapshot Rules (CRITICAL)
 
-**Each camera snapshot uses ~30K-50K tokens.** Grabbing multiple snapshots in one session WILL fill the 131K context window and make the session unresponsive. Follow these rules strictly:
+**Each camera snapshot uses ~30K-50K tokens.** Grabbing multiple snapshots in one session WILL fill the context window and make the session unresponsive. Follow these rules strictly:
 
 1. **NEVER grab more than 2 snapshots in a single conversation.** If the user asks about multiple cameras, pick the 2 most relevant.
 2. **For "where is [animal]?" queries:** FIRST check the sightings log at `/home/vision/.openclaw/workspace/animal-sightings.jsonl`. Report what's there. Only grab a snapshot if the log is empty/stale AND the user specifically asks for a live check — and only check 1-2 cameras maximum.
@@ -90,9 +90,10 @@ Animal sightings are tracked by the **Animal Tracker** cron job (every 10 min) a
 - Animal profiles: `/home/vision/.openclaw/workspace/animal-profiles.json`
 
 When asked about animal locations:
-1. Read the sightings log: `tail -20 /home/vision/.openclaw/workspace/animal-sightings.jsonl`
-2. Report the latest sighting per animal
-3. If the log is empty/stale, say so and offer to check 1-2 specific cameras
+1. Read the sightings log ONCE: `read /home/vision/.openclaw/workspace/animal-sightings.jsonl`
+2. If the file has entries, report the latest sighting per animal
+3. If the file is EMPTY or does not exist, say "No sightings have been recorded yet. The Animal Tracker cron runs every 10 minutes — want me to check 1-2 specific cameras instead?"
+4. **NEVER read the same file more than once.** If the file is empty on the first read, it will be empty on the second read too. Move on.
 
 Known animals: Dozer (boxer dog), Nona (black Percheron), Cruella (black horse, white face star), Scooby (black horse, white foot).
 

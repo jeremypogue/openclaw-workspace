@@ -14,6 +14,11 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 
 **Token budget:** Every tool call adds to the context window. Keep tool calls minimal — answer from what you already know before reaching for tools.
 
+**CRITICAL — No Retry Loops:**
+- **NEVER call the same tool with the same arguments more than once.** If a file is empty on the first read, it will be empty on the second. Move on.
+- **Maximum 5 tool calls per user message.** If you've made 5 calls, stop and answer with what you have.
+- **If a tool returns an error or empty result, report that to the user.** Don't silently retry.
+
 ## Memory
 
 You wake up fresh each session. These files are your continuity:

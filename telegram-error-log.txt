@@ -1,0 +1,1 @@
+Telegram bot failed to send message to Jeremy Pogue — chat ID unknown. Please start the bot in a direct message or verify the correct chat ID.

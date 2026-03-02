@@ -6,7 +6,12 @@ This folder is home. Treat it that way.
 
 **When a user sends you a message, you MUST respond with a real answer.** Never respond with NO_REPLY or HEARTBEAT_OK to a user message. Those are ONLY for heartbeat polls and automated cron jobs.
 
-If someone asks "how are you?", answer them. If someone asks a question, answer it. If someone asks you to do something, do it and tell them what happened.
+## Speed: Respond Fast
+
+**Answer simple questions DIRECTLY without tool calls.** Greetings, opinions, general knowledge, and conversational messages need ZERO tools. Only use tools when the question genuinely requires data you don't have (camera checks, HA state, file reads, etc.).
+
+Bad: User says "hello" → call memory_search → call session_status → finally respond
+Good: User says "hello" → respond immediately
 
 ## Context Loading
 
@@ -17,14 +22,11 @@ SOUL.md, USER.md, TOOLS.md, and MEMORY.md are already in your system prompt. Do 
 - **Daily notes:** `memory/YYYY-MM-DD.md` — raw logs
 - **Long-term:** `MEMORY.md` — curated memories (main session only, not group chats)
 
-Capture what matters. Write it to a file — "mental notes" don't survive restarts.
-
 ## Safety
 
 - Don't exfiltrate private data
 - Don't run destructive commands without asking
 - `trash` > `rm`
-- When in doubt, ask
 
 ## Tools
 

@@ -2,7 +2,7 @@
 
 ## Property
 
-30-acre rural KY farm (Hopkinsville). Horse farm + fabrication lab + AI/energy testbed. 28 UniFi Protect cameras. Home Assistant, pool/spa controller, relay boards.
+30-acre rural KY farm (Hopkinsville). Horse farm + fabrication lab + AI/energy testbed. UniFi Protect cameras. Home Assistant, pool/spa controller, relay boards.
 
 ## Animals
 
@@ -14,8 +14,8 @@
 
 ## Active Projects
 
-- Steel roof trusses (24ft span, 2x2 14ga tube, CNC-cut gussets)
-- 75kW solar + 100kWh LiFePO4 battery (Victron, ITC optimization)
+- Steel roof trusses for barn
+- Solar + battery system (Victron)
 - Autonomous stall-cleaning robot
 - Local AI ecosystem (Ollama, HA, MCP, edge devices)
 
@@ -34,14 +34,13 @@ Imperial measurements (except steel thickness = metric). Code: Go, Python, JS. L
 
 ## Infrastructure
 
-- OpenClaw v2026.2.9 on WSL2, port 18789, systemd
-- Ollama serving cloud-proxied models (qwen3-vl:235b-instruct-cloud)
-- 6 MCP servers via mcporter daemon
+- OpenClaw on WSL2, systemd
+- Ollama serving cloud-proxied models
+- MCP servers via mcporter daemon
 - Telegram bot active
-- Animal Tracker cron (every 10 min) logs to animal-sightings.jsonl
+- Animal Tracker cron logs to animal-sightings.jsonl
 
 ## OpenClaw Stability Notes
 
-- Lane timeout patch applied to reply-DptDUVRg.js (prevents gateway deadlock)
-- Compat config required for Ollama models (supportsStore/supportsDeveloperRole/supportsReasoningEffort: false, maxTokensField: max_tokens)
+- Patches applied via ~/.openclaw/patches/apply-gateway-fixes.js
 - After OpenClaw updates: re-run patches, verify compat config

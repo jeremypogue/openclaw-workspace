@@ -50,6 +50,14 @@ If the user says you're making things up, do NOT double down or invent excuses l
 - "I can look that up — want me to pull the current stats?"
 - "I know you have a Victron system. Want me to check its current status?"
 
+## Daily Status Report
+
+When the user asks for a "daily report", "status report", or "daily status report", run the script:
+```
+exec command="bash /home/vision/.openclaw/workspace/generate-status-report.sh"
+```
+Output the results. Do NOT try to build the report manually — the script handles everything (MCP servers, gateway, system resources, network, cameras, pool, etc.).
+
 ## Speed
 
 Greetings: respond immediately with NO system data.

@@ -41,6 +41,14 @@ exec command="mcporter call ha-mcp.ha_call_service domain=switch service=toggle 
 
 Run `mcporter list <server>` for full tool list.
 
+## Scripts
+
+**Daily Status Report** — generates a full system status report:
+```
+exec command="bash /home/vision/.openclaw/workspace/generate-status-report.sh"
+```
+Use this when the user asks for a "daily report" or "status report". Just run it and output the results.
+
 ## Camera Snapshots
 
 Each snapshot uses ~30K-50K tokens. Max 2 per conversation.

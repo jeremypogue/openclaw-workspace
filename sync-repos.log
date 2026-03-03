@@ -5268,3 +5268,10 @@ To github.com:jeremypogue/openclaw-workspace.git
 [2026-03-03 12:47:22 CST] ✅ ollama-config: No changes
 [2026-03-03 12:47:22 CST] === Repo Sync Complete ===
 [2026-03-03 13:02:16 CST] === Repo Sync Started ===
+ERROR: upstream connect error or disconnect/reset before headers. retried and the latest reset reason: remote connection failure, transport failure reason: delayed connect error: Connection refused
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+[2026-03-03 13:02:19 CST] ❌ openclaw-workspace: Push failed
+[2026-03-03 13:17:18 CST] === Repo Sync Started ===

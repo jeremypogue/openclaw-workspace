@@ -26,7 +26,11 @@ add_animal() { ANIMAL_REPORT="${ANIMAL_REPORT}${1}\n"; }
 # ── Person Detection History ──
 PERSON_SENSORS=$(echo "binary_sensor.barn_person_detected,binary_sensor.stalls_person_detected,binary_sensor.stall1_person_detected,binary_sensor.stall2_person_detected,binary_sensor.stall3_person_detected,binary_sensor.paddock1_person_detected,binary_sensor.paddock2_person_detected,binary_sensor.paddock5_person_detected,binary_sensor.overwatch_person_detected,binary_sensor.pond_person_detected,binary_sensor.greenville_rd_person_detected,binary_sensor.driveentry_person_detected,binary_sensor.driveway_person_detected,binary_sensor.front_yard_person_detected,binary_sensor.front_door_person_detected,binary_sensor.back_door_person_detected,binary_sensor.garage_person_detected,binary_sensor.pool_patio_person_detected,binary_sensor.patio_north_person_detected,binary_sensor.spa_person_detected,binary_sensor.pool_person_detected,binary_sensor.backyard_person_detected,binary_sensor.poolshack_north_person_detected,binary_sensor.mower_storage_person_detected,binary_sensor.shop_ceiling1_person_detected")
 
-PERSON_HISTORY=$(mcporter call ha-mcp.ha_get_history entity_ids="$PERSON_SENSORS" start_time="${LOOKBACK_HOURS}h" significant_changes_only=true 2>/dev/null || echo '[]')
+HA_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2MzQ0MDk3YTc0NGU0MDVhOGM1NDMwZWZjZjZiYjRjOCIsImlhdCI6MTc3MjY0ODUyNywiZXhwIjoyMDg4MDA4NTI3fQ.62pXiB56yyKziMFCW8rJHRfKyAO7yQ_fRjUbVRU_Ecc"
+HA_URL="http://10.0.101.254:8123"
+LOOKBACK_START=$(date -u -d "${LOOKBACK_HOURS} hours ago" +%Y-%m-%dT%H:%M:%S 2>/dev/null || date -u -v-${LOOKBACK_HOURS}H +%Y-%m-%dT%H:%M:%S)
+
+PERSON_HISTORY=$(curl -s -H "Authorization: Bearer $HA_TOKEN" "${HA_URL}/api/history/period/${LOOKBACK_START}?filter_entity_id=${PERSON_SENSORS}&significant_changes_only=1" 2>/dev/null || echo '[]')
 
 # Count person detections per camera
 PERSON_EVENTS=""
@@ -71,7 +75,7 @@ fi
 # ── Vehicle Detection History ──
 VEHICLE_SENSORS="binary_sensor.greenville_rd_vehicle_detected,binary_sensor.driveentry_vehicle_detected,binary_sensor.driveway_vehicle_detected,binary_sensor.front_yard_vehicle_detected,binary_sensor.front_door_vehicle_detected,binary_sensor.paddock5_vehicle_detected,binary_sensor.garage_vehicle_detected"
 
-VEHICLE_HISTORY=$(mcporter call ha-mcp.ha_get_history entity_ids="$VEHICLE_SENSORS" start_time="${LOOKBACK_HOURS}h" significant_changes_only=true 2>/dev/null || echo '[]')
+VEHICLE_HISTORY=$(curl -s -H "Authorization: Bearer $HA_TOKEN" "${HA_URL}/api/history/period/${LOOKBACK_START}?filter_entity_id=${VEHICLE_SENSORS}&significant_changes_only=1" 2>/dev/null || echo '[]')
 
 VEHICLE_EVENTS=""
 if command -v jq &>/dev/null && [ "$VEHICLE_HISTORY" != "[]" ]; then
@@ -189,7 +193,7 @@ else
     # Fallback: query HA history directly if no sightings log available
     ANIMAL_SENSORS="binary_sensor.barn_animal_detected,binary_sensor.stalls_animal_detected,binary_sensor.stall1_animal_detected,binary_sensor.stall2_animal_detected,binary_sensor.stall3_animal_detected,binary_sensor.paddock1_animal_detected,binary_sensor.paddock2_animal_detected,binary_sensor.paddock5_animal_detected,binary_sensor.overwatch_animal_detected,binary_sensor.pond_animal_detected,binary_sensor.backyard_animal_detected,binary_sensor.front_yard_animal_detected,binary_sensor.patio_north_animal_detected,binary_sensor.pool_patio_animal_detected,binary_sensor.garage_animal_detected,binary_sensor.front_door_animal_detected,binary_sensor.back_door_animal_detected,binary_sensor.driveway_animal_detected,binary_sensor.driveentry_animal_detected,binary_sensor.mower_storage_animal_detected,binary_sensor.pool_animal_detected,binary_sensor.spa_animal_detected"
 
-    ANIMAL_HISTORY=$(mcporter call ha-mcp.ha_get_history entity_ids="$ANIMAL_SENSORS" start_time="${LOOKBACK_HOURS}h" significant_changes_only=true 2>/dev/null || echo '[]')
+    ANIMAL_HISTORY=$(curl -s -H "Authorization: Bearer $HA_TOKEN" "${HA_URL}/api/history/period/${LOOKBACK_START}?filter_entity_id=${ANIMAL_SENSORS}&significant_changes_only=1" 2>/dev/null || echo '[]')
 
     if command -v jq &>/dev/null && [ "$ANIMAL_HISTORY" != "[]" ]; then
         ANIMAL_EVENTS=$(echo "$ANIMAL_HISTORY" | jq -r '

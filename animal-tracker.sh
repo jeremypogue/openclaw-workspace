@@ -17,8 +17,11 @@ NOW_EPOCH=$(date +%s)
 # All 22 animal_detected binary sensors (matches security-check.sh)
 ANIMAL_SENSORS="binary_sensor.barn_animal_detected,binary_sensor.stalls_animal_detected,binary_sensor.stall1_animal_detected,binary_sensor.stall2_animal_detected,binary_sensor.stall3_animal_detected,binary_sensor.paddock1_animal_detected,binary_sensor.paddock2_animal_detected,binary_sensor.paddock5_animal_detected,binary_sensor.overwatch_animal_detected,binary_sensor.pond_animal_detected,binary_sensor.backyard_animal_detected,binary_sensor.front_yard_animal_detected,binary_sensor.patio_north_animal_detected,binary_sensor.pool_patio_animal_detected,binary_sensor.garage_animal_detected,binary_sensor.front_door_animal_detected,binary_sensor.back_door_animal_detected,binary_sensor.driveway_animal_detected,binary_sensor.driveentry_animal_detected,binary_sensor.mower_storage_animal_detected,binary_sensor.pool_animal_detected,binary_sensor.spa_animal_detected"
 
-# Query HA history for the lookback period
-HISTORY=$(mcporter call ha-mcp.ha_get_history entity_ids="$ANIMAL_SENSORS" start_time="${LOOKBACK_MINUTES}m" significant_changes_only=true 2>/dev/null || echo '[]')
+# Query HA history for the lookback period (direct REST API)
+HA_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2MzQ0MDk3YTc0NGU0MDVhOGM1NDMwZWZjZjZiYjRjOCIsImlhdCI6MTc3MjY0ODUyNywiZXhwIjoyMDg4MDA4NTI3fQ.62pXiB56yyKziMFCW8rJHRfKyAO7yQ_fRjUbVRU_Ecc"
+HA_URL="http://10.0.101.254:8123"
+LOOKBACK_START=$(date -u -d "${LOOKBACK_MINUTES} minutes ago" +%Y-%m-%dT%H:%M:%S 2>/dev/null || date -u -v-${LOOKBACK_MINUTES}M +%Y-%m-%dT%H:%M:%S)
+HISTORY=$(curl -s -H "Authorization: Bearer $HA_TOKEN" "${HA_URL}/api/history/period/${LOOKBACK_START}?filter_entity_id=${ANIMAL_SENSORS}&significant_changes_only=1" 2>/dev/null || echo '[]')
 
 # Extract cameras with activity (state went to "on" in the lookback window)
 ACTIVE_CAMERAS=""

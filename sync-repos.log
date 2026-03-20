@@ -21976,3 +21976,15 @@ To github.com:jeremypogue/openclaw-workspace.git
 [2026-03-20 14:02:20 CST] ✅ ollama-config: No changes
 [2026-03-20 14:02:20 CST] === Repo Sync Complete ===
 [2026-03-20 14:17:16 CST] === Repo Sync Started ===
+To github.com:jeremypogue/openclaw-workspace.git
+   1a455e4..b2b494f  main -> main
+[2026-03-20 14:17:17 CST] ✅ openclaw-workspace: Synced
+To github.com:jeremypogue/unifi-protect-mcp-server.git
+   f36f7b2..8592ca4  main -> main
+[2026-03-20 14:17:18 CST] ✅ unifi-protect-mcp-server: Synced
+[2026-03-20 14:17:18 CST] ✅ nodejs-pool-controller-mcp: No changes
+[2026-03-20 14:17:18 CST] ✅ relay-equipment-manager-mcp: No changes
+[2026-03-20 14:17:18 CST] ✅ ha-mcp: No changes
+fatal: could not read Username for 'https://github.com': No such device or address
+[2026-03-20 14:17:18 CST] ❌ unifi-network-mcp: Push failed
+[2026-03-20 14:32:15 CST] === Repo Sync Started ===
